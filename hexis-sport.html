@@ -179,6 +179,34 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 .log-row.editable{grid-template-columns:34px 1fr 1fr 1fr 28px}
 .set-del{background:none;border:none;color:var(--danger);font-size:1.2rem;cursor:pointer;padding:0;line-height:1}
 
+/* Ma semaine */
+.week{margin-bottom:18px}
+.week-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.week-title{font-family:Fraunces,serif;font-weight:600;font-size:1.1rem}
+.week-nav{background:var(--card);border:1px solid var(--hair);border-radius:9px;width:34px;height:34px;font-size:1.1rem;color:var(--deep-2);cursor:pointer}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day-cell{position:relative;background:var(--card);border:1px solid var(--hair);border-radius:11px;padding:8px 3px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:78px}
+.day-cell.today{border-color:var(--deep);border-width:2px}
+.day-name{font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--graphite)}
+.day-num{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.95rem}
+.day-type{font-size:.58rem;text-align:center;color:var(--deep-2);line-height:1.1;margin-top:2px}
+.day-type.empty{color:var(--hair)}
+.day-dot{position:absolute;bottom:6px;width:6px;height:6px;border-radius:50%}
+.day-dot.done{background:var(--signal)}.day-dot.prog{background:var(--warn)}
+
+/* segments (choix de type) */
+.seg{display:flex;gap:6px;margin:8px 0 4px}
+.seg.wrap{flex-wrap:wrap}
+.seg-btn{flex:1;min-width:72px;background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:10px 8px;font-size:.82rem;font-weight:600;color:var(--graphite);cursor:pointer}
+.seg-btn.active{background:var(--deep);color:#EAF3F0;border-color:var(--deep)}
+
+/* formulaire cardio */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field-label{font-size:.72rem;color:var(--graphite)}
+.field .text-input{margin-top:0}
+.chip.cardio{background:#E7EEF3;color:var(--deep-2)}
+
 /* chrono de récupération */
 .rest-bar{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:55;display:flex;align-items:center;gap:14px;
   background:var(--deep-2);color:#EAF3F0;padding:10px 16px;border-radius:14px;box-shadow:var(--shadow);max-width:94%}
@@ -716,6 +744,9 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     function saveWorkoutSession(s) { return upsert('workoutSessions', s); }
     function saveBodyMeasurement(m) { return upsert('bodyMeasurements', m); }
     function saveCardioSession(c) { return upsert('cardioSessions', c); }
+    function savePlannedEvent(p) { return upsert('plannedEvents', p); }
+    function deleteCardioSession(id) { var d = ds(); d.cardioSessions = d.cardioSessions.filter(function (x) { return x.id !== id; }); persistActive(); }
+    function deletePlannedEvent(id) { var d = ds(); d.plannedEvents = d.plannedEvents.filter(function (x) { return x.id !== id; }); persistActive(); }
     function saveExercise(x) { return upsert('exercises', x); }
     function saveTemplate(t) { return upsert('workoutTemplates', t); }
     // --- Prénom / réglages ------------------------------------------
@@ -822,6 +853,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       getBodyMeasurements: getBodyMeasurements, getCardioSessions: getCardioSessions, getWeeklyReviews: getWeeklyReviews,
       getMigrationReviewItems: getMigrationReviewItems, getMigrationLog: getMigrationLog, getMeta: getMeta, getSettings: getSettings,
       saveWorkoutSession: saveWorkoutSession, saveBodyMeasurement: saveBodyMeasurement, saveCardioSession: saveCardioSession, saveExercise: saveExercise,
+      savePlannedEvent: savePlannedEvent, deleteCardioSession: deleteCardioSession, deletePlannedEvent: deletePlannedEvent,
       setUserName: setUserName, createExercise: createExercise, saveTemplate: saveTemplate, getDraft: getDraft, saveDraft: saveDraft, clearDraft: clearDraft,
       resolveMigrationReviewItem: resolveMigrationReviewItem, acceptAllStartingLoads: acceptAllStartingLoads,
       exportAll: exportAll, importAny: importAny, diagnostics: diagnostics, wipeNamespace: wipeNamespace, _deviceId: function () { return deviceId2(); }
@@ -1061,21 +1093,33 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     head.appendChild(el('h1', 'display hello', 'Bonjour ' + USER));
     main.appendChild(head);
 
-    // séance planifiée du jour
-    var plan = A.getPlannedEvents().filter(function (p) { return p.date === todayISO(); })[0];
-    var card = el('section', 'card lead-card');
-    card.appendChild(el('div', 'card-eyebrow', "Aujourd'hui"));
-    if (plan) {
-      var label = { workout: 'Séance', cardio: 'Cardio', rest: 'Repos', 'active-recovery': 'Récupération active' }[plan.plannedType] || plan.plannedType;
-      var tpl = plan.templateId ? A.getTemplates().filter(function (t) { return t.id === plan.templateId; })[0] : null;
-      card.appendChild(el('div', 'lead-title', tpl ? tpl.name : label));
-      var sub = plan.plannedType === 'workout' ? 'Planifiée' : (tpl ? label : '');
-      if (sub) card.appendChild(el('div', 'lead-sub', sub));
-    } else {
-      card.appendChild(el('div', 'lead-title muted', 'Rien de planifié'));
-      card.appendChild(el('div', 'lead-sub', 'Journée libre'));
+    // ── Ma semaine ────────────────────────────────────────────────
+    var wk = el('section', 'week');
+    var wkHead = el('div', 'week-head');
+    var prev = el('button', 'week-nav', '‹'); prev.onclick = function () { WEEK_OFFSET -= 1; renderApp('accueil'); };
+    var next = el('button', 'week-nav', '›'); next.onclick = function () { WEEK_OFFSET += 1; renderApp('accueil'); };
+    var mon = mondayOf(new Date(), WEEK_OFFSET);
+    wkHead.appendChild(prev);
+    wkHead.appendChild(el('div', 'week-title', WEEK_OFFSET === 0 ? 'Ma semaine' : weekRangeLabel(mon)));
+    wkHead.appendChild(next);
+    wk.appendChild(wkHead);
+    var grid = el('div', 'week-grid');
+    var days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+    for (var i = 0; i < 7; i++) {
+      var dISO = isoOf(addDays(mon, i));
+      var ev = latestPlanFor(dISO);
+      var cell = el('button', 'day-cell' + (dISO === todayISO() ? ' today' : ''));
+      cell.appendChild(el('div', 'day-name', days[i]));
+      cell.appendChild(el('div', 'day-num', String(new Date(dISO + 'T00:00:00').getDate())));
+      var typeLabel = ev ? planLabel(ev) : '—';
+      cell.appendChild(el('div', 'day-type' + (ev ? '' : ' empty'), typeLabel));
+      if (ev && ev.status === 'done') cell.appendChild(el('div', 'day-dot done'));
+      else if (ev && ev.status === 'in-progress') cell.appendChild(el('div', 'day-dot prog'));
+      (function (d) { cell.onclick = function () { openDay(d); }; })(dISO);
+      grid.appendChild(cell);
     }
-    main.appendChild(card);
+    wk.appendChild(grid);
+    main.appendChild(wk);
 
     // dernière séance + dernières mesures
     var row = el('div', 'card-row');
@@ -1120,21 +1164,32 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
   function viewHistorique(main) {
     banner(main);
     main.appendChild(el('h1', 'display screen-title', 'Historique'));
-    var sessions = A.getSessions().filter(function (s) { return s.date; }).sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    if (!sessions.length) { main.appendChild(el('p', 'empty', 'Aucune séance pour l\'instant.')); return; }
+    var items = [];
+    A.getSessions().filter(function (s) { return s.date; }).forEach(function (s) { items.push({ kind: 'workout', date: s.date, s: s }); });
+    A.getCardioSessions().filter(function (c) { return c.date; }).forEach(function (c) { items.push({ kind: 'cardio', date: c.date, c: c }); });
+    items.sort(function (a, b) { return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+    if (!items.length) { main.appendChild(el('p', 'empty', 'Rien pour l\'instant. Démarre une séance ou note un cardio.')); return; }
     var list = el('div', 'list');
-    sessions.forEach(function (s) {
-      var it = el('button', 'list-item');
+    items.forEach(function (it) {
+      var row = el('button', 'list-item');
       var left = el('div', 'li-left');
-      left.appendChild(el('div', 'li-date', fmtDate(s.date)));
-      left.appendChild(el('div', 'li-sub', s.entries.length + ' exercice(s)'));
-      it.appendChild(left);
-      var right = el('div', 'li-right');
-      if (s.status === 'legacy') right.appendChild(el('span', 'chip warn', 'à vérifier'));
-      else if (s.status === 'completed') right.appendChild(el('span', 'chip ok', 'faite'));
-      it.appendChild(right);
-      it.onclick = function () { sessionDetail(s.id); };
-      list.appendChild(it);
+      left.appendChild(el('div', 'li-date', fmtDate(it.date)));
+      if (it.kind === 'workout') {
+        left.appendChild(el('div', 'li-sub', it.s.entries.length + ' exercice(s)'));
+        row.appendChild(left);
+        var r = el('div', 'li-right');
+        if (it.s.status === 'legacy') r.appendChild(el('span', 'chip warn', 'à vérifier'));
+        else r.appendChild(el('span', 'chip ok', 'muscu'));
+        row.appendChild(r);
+        row.onclick = function () { sessionDetail(it.s.id); };
+      } else {
+        var t = (CARDIO_TYPES.filter(function (x) { return x.v === it.c.type; })[0] || {}).label || it.c.type;
+        var sub = el('div', 'li-sub'); sub.appendChild(document.createTextNode(t + ' · ')); sub.appendChild(num(it.c.durationMinutes, 'min'));
+        left.appendChild(sub); row.appendChild(left);
+        var r2 = el('div', 'li-right'); r2.appendChild(el('span', 'chip cardio', 'cardio')); row.appendChild(r2);
+        row.onclick = function () { cardioForm(it.c.date, it.c.id); };
+      }
+      list.appendChild(row);
     });
     main.appendChild(list);
   }
@@ -1215,10 +1270,34 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       card.appendChild(addSet);
       main.appendChild(card);
     });
+    // ajouter un exercice oublié
+    var addWrap = el('section', 'card add-ex');
+    addWrap.appendChild(el('div', 'card-eyebrow', 'Ajouter un exercice oublié'));
+    var nameI = el('input', 'text-input'); nameI.type = 'text'; nameI.placeholder = 'Nom de l\'exercice'; nameI.value = working.__newName || '';
+    nameI.onchange = function () { working.__newName = nameI.value; };
+    var chargeI = el('input', 'text-input small-input'); chargeI.type = 'number'; chargeI.inputMode = 'decimal'; chargeI.placeholder = 'Charge kg (optionnel)'; chargeI.value = working.__newCharge || '';
+    chargeI.onchange = function () { working.__newCharge = chargeI.value; };
+    var addB = el('button', 'btn small', '+ Ajouter à la séance');
+    addB.onclick = function () { working.__newName = nameI.value; working.__newCharge = chargeI.value; addExerciseToEdit(id, working); };
+    addWrap.appendChild(nameI); addWrap.appendChild(chargeI); addWrap.appendChild(addB);
+    main.appendChild(addWrap);
+
     var save = el('button', 'btn primary', 'Enregistrer les modifications');
-    save.onclick = function () { working.entries = working.entries.filter(function (en) { return en.sets.length; }); Object.assign(orig, working); orig.updatedAt = new Date().toISOString(); A.saveWorkoutSession(orig); toast('Modifications enregistrées'); sessionDetail(id); };
+    save.onclick = function () { delete working.__newName; delete working.__newCharge; working.entries = working.entries.filter(function (en) { return en.sets.length; }); Object.assign(orig, working); orig.updatedAt = new Date().toISOString(); A.saveWorkoutSession(orig); toast('Modifications enregistrées'); sessionDetail(id); };
     main.appendChild(save);
     var cancel = el('button', 'btn ghost', 'Annuler'); cancel.onclick = function () { sessionDetail(id); }; main.appendChild(cancel);
+  }
+  // ajoute un exercice oublié à la séance en cours de modification
+  function addExerciseToEdit(id, working) {
+    var name = (working.__newName || '').trim(); if (!name) { toast('Donne un nom à l\'exercice'); return; }
+    var charge = working.__newCharge != null && working.__newCharge !== '' ? Number(working.__newCharge) : null;
+    // réutilise un exercice existant de la bibliothèque si le nom correspond, sinon le crée
+    var norm = window.CarnetMigration.normalizeName(name);
+    var ex = A.getExercises().filter(function (e) { return e.normalizedName === norm; })[0];
+    if (!ex) ex = A.createExercise(name, charge);
+    working.entries.push({ exerciseId: ex.id, name: ex.name, prescriptionSnapshot: (ex.defaults ? { setsTarget: ex.defaults.setsTarget, repsTarget: ex.defaults.repsTarget, restSeconds: ex.defaults.restSeconds } : { setsTarget: 3, repsTarget: null, restSeconds: 90 }), sets: [ { charge: charge, reps: null, restSeconds: null } ] });
+    working.__newName = ''; working.__newCharge = '';
+    sessionEditFrom(id, working);
   }
 
   // ---- Diagnostic (non bloquant) ------------------------------------
@@ -1335,8 +1414,182 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
   }
 
   // ===================================================================
-  //  MODE ENTRAÎNEMENT (v1.3)
+  //  MA SEMAINE + CARDIO (v1.4)
   // ===================================================================
+  var WEEK_OFFSET = 0;
+  var CARDIO_TYPES = [
+    { v: 'treadmill', label: 'Tapis', fields: ['incline', 'speed', 'distance'] },
+    { v: 'bike', label: 'Vélo', fields: ['distance', 'level'] },
+    { v: 'elliptical', label: 'Elliptique', fields: ['distance', 'level'] },
+    { v: 'rower', label: 'Rameur', fields: ['distance', 'level'] },
+    { v: 'walk', label: 'Marche', fields: ['distance'] },
+    { v: 'run', label: 'Course', fields: ['distance'] },
+    { v: 'other', label: 'Autre', fields: ['distance'] }
+  ];
+  var PLAN_TYPES = [['workout', 'Séance'], ['cardio', 'Cardio'], ['rest', 'Repos'], ['active-recovery', 'Récup active']];
+  function planLabel(ev) {
+    if (ev.plannedType === 'workout') { var t = ev.templateId ? A.getTemplates().filter(function (x) { return x.id === ev.templateId; })[0] : null; return t ? t.name : 'Séance'; }
+    var m = { cardio: 'Cardio', rest: 'Repos', 'active-recovery': 'Récup active' }; return m[ev.plannedType] || ev.plannedType;
+  }
+  function mondayOf(date, offsetWeeks) {
+    var d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var day = (d.getDay() + 6) % 7; // 0 = lundi
+    d.setDate(d.getDate() - day + (offsetWeeks || 0) * 7);
+    return d;
+  }
+  function addDays(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() + n); return x; }
+  function isoOf(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function weekRangeLabel(mon) { var sun = addDays(mon, 6); return mon.getDate() + '–' + sun.getDate() + ' ' + sun.toLocaleDateString('fr-FR', { month: 'short' }); }
+  function latestPlanFor(dISO) { var evs = A.getPlannedEvents().filter(function (p) { return p.date === dISO; }); return evs.length ? evs[evs.length - 1] : null; }
+  function activityForPlan(ev) {
+    if (!ev || !ev.linkedId) return null;
+    return A.getSessions().filter(function (s) { return s.id === ev.linkedId; })[0] || A.getCardioSessions().filter(function (c) { return c.id === ev.linkedId; })[0] || null;
+  }
+
+  // ── Écran d'un jour ────────────────────────────────────────────────
+  function openDay(dISO) {
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Ma semaine'); back.onclick = function () { renderApp('accueil'); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', fmtDate(dISO)));
+    var ev = latestPlanFor(dISO);
+    var linked = activityForPlan(ev);
+
+    // choix du type de jour
+    main.appendChild(el('div', 'card-eyebrow', 'Type de journée'));
+    var seg = el('div', 'seg');
+    PLAN_TYPES.forEach(function (pt) {
+      var b = el('button', 'seg-btn' + (ev && ev.plannedType === pt[0] ? ' active' : ''));
+      b.textContent = pt[1];
+      b.onclick = function () { setDayType(dISO, pt[0], !!linked); };
+      seg.appendChild(b);
+    });
+    main.appendChild(seg);
+
+    if (linked) {
+      var warn = el('div', 'note');
+      warn.textContent = 'Une activité est déjà enregistrée pour ce jour. Modifier le planning ne modifiera pas l\'historique.';
+      main.appendChild(warn);
+    }
+
+    if (!ev) { main.appendChild(el('p', 'lede small', 'Choisis un type de journée ci-dessus.')); return; }
+
+    // action selon le type
+    if (ev.plannedType === 'workout') {
+      var b = el('button', 'btn primary', ev.status === 'done' ? 'Séance enregistrée ✓ — en refaire une' : 'Démarrer la séance');
+      b.onclick = function () { startWorkoutForDay(dISO, ev); };
+      main.appendChild(b);
+      if (linked) main.appendChild(sessionSummaryCard(linked, dISO));
+    } else if (ev.plannedType === 'cardio') {
+      if (linked) { main.appendChild(cardioSummaryCard(linked)); var e = el('button', 'btn ghost', 'Modifier ce cardio'); e.onclick = function () { cardioForm(dISO, linked.id); }; main.appendChild(e); }
+      else { var b2 = el('button', 'btn primary', 'Enregistrer le cardio'); b2.onclick = function () { cardioForm(dISO, null); }; main.appendChild(b2); }
+    } else { // rest / active-recovery
+      if (ev.status === 'done') {
+        main.appendChild(el('p', 'lede small', 'Marqué comme fait.'));
+        var un = el('button', 'btn ghost', 'Annuler « fait »'); un.onclick = function () { ev.status = 'planned'; A.savePlannedEvent(ev); openDay(dISO); }; main.appendChild(un);
+      } else {
+        var done = el('button', 'btn primary', 'Marquer comme fait'); done.onclick = function () { ev.status = 'done'; A.savePlannedEvent(ev); toast('Marqué comme fait'); openDay(dISO); }; main.appendChild(done);
+        var cancel = el('button', 'btn ghost', 'Annuler'); cancel.onclick = function () { renderApp('accueil'); }; main.appendChild(cancel);
+      }
+    }
+  }
+  function setDayType(dISO, type, hasLinked) {
+    var ev = latestPlanFor(dISO);
+    if (!ev) ev = { date: dISO, plannedType: type, status: 'planned', templateId: null, linkedId: null, source: 'user' };
+    else { ev.plannedType = type; } // linkedId/activité préservés — jamais touchés
+    if (type !== 'workout') ev.templateId = null;
+    A.savePlannedEvent(ev);
+    openDay(dISO);
+  }
+  function startWorkoutForDay(dISO, ev) {
+    // brouillon lié au jour ; à la validation, on relie le plannedEvent
+    var tpl = ev.templateId ? A.getTemplates().filter(function (t) { return t.id === ev.templateId; })[0] : null;
+    if (tpl) startDraftFromTemplate(tpl); else A.saveDraft({ type: 'Séance', templateId: null, date: dISO, startedAt: new Date().toISOString(), entries: [] });
+    var d = A.getDraft(); d.date = dISO; d.planDate = dISO; A.saveDraft(d);
+    renderApp('seance');
+  }
+  function sessionSummaryCard(s, dISO) {
+    var card = el('section', 'card'); card.appendChild(el('div', 'card-eyebrow', 'Séance enregistrée'));
+    card.appendChild(el('div', 'kpi-sub', s.entries.length + ' exercice(s)'));
+    var open = el('button', 'link-btn', 'Voir / modifier'); open.onclick = function () { renderApp('historique'); setTimeout(function () { sessionDetail(s.id); }, 0); }; card.appendChild(open);
+    return card;
+  }
+  function cardioSummaryCard(c) {
+    var card = el('section', 'card'); card.appendChild(el('div', 'card-eyebrow', 'Cardio enregistré'));
+    var t = (CARDIO_TYPES.filter(function (x) { return x.v === c.type; })[0] || {}).label || c.type;
+    var line = el('div', 'kpi-sub'); line.appendChild(document.createTextNode(t + ' · ')); line.appendChild(num(c.durationMinutes, 'min')); card.appendChild(line);
+    return card;
+  }
+
+  // ── Formulaire cardio (champs conditionnels) ───────────────────────
+  function cardioForm(dISO, existingId) {
+    var existing = existingId ? A.getCardioSessions().filter(function (c) { return c.id === existingId; })[0] : null;
+    var draft = existing ? JSON.parse(JSON.stringify(existing)) : { date: dISO, type: 'treadmill', durationMinutes: null, note: '', metrics: {}, heartRateAvg: null, calories: null };
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Retour'); back.onclick = function () { openDay(dISO); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', existing ? 'Modifier le cardio' : 'Cardio'));
+
+    // type
+    main.appendChild(el('div', 'card-eyebrow', 'Type'));
+    var seg = el('div', 'seg wrap');
+    CARDIO_TYPES.forEach(function (ct) {
+      var b = el('button', 'seg-btn' + (draft.type === ct.v ? ' active' : ''));
+      b.textContent = ct.label;
+      b.onclick = function () { draft.type = ct.v; renderCardioBody(); };
+      seg.appendChild(b);
+    });
+    main.appendChild(seg);
+
+    var bodyWrap = el('div'); bodyWrap.id = 'cardio-body'; main.appendChild(bodyWrap);
+    renderCardioBody();
+
+    function renderCardioBody() {
+      var seg2 = document.querySelectorAll ? null : null;
+      // met à jour l'état actif des boutons type
+      Array.prototype.forEach.call(seg.children, function (b) { if (b.textContent === (CARDIO_TYPES.filter(function (x) { return x.v === draft.type; })[0] || {}).label) b.className = 'seg-btn active'; else b.className = 'seg-btn'; });
+      var body = document.getElementById('cardio-body'); clear(body);
+      var ct = CARDIO_TYPES.filter(function (x) { return x.v === draft.type; })[0];
+      var form = el('section', 'card'); var g = el('div', 'field-grid');
+      g.appendChild(field('Durée (min) *', draft.durationMinutes, 'number', function (v) { draft.durationMinutes = v; }));
+      draft.metrics = draft.metrics || {};
+      if (ct.fields.indexOf('incline') >= 0) g.appendChild(field('Pente (%)', draft.metrics.inclinePercent, 'number', function (v) { draft.metrics.inclinePercent = v; }));
+      if (ct.fields.indexOf('speed') >= 0) g.appendChild(field('Vitesse (km/h)', draft.metrics.speedKmh, 'number', function (v) { draft.metrics.speedKmh = v; }));
+      if (ct.fields.indexOf('distance') >= 0) g.appendChild(field('Distance (km)', draft.metrics.distanceKm, 'number', function (v) { draft.metrics.distanceKm = v; }));
+      if (ct.fields.indexOf('level') >= 0) g.appendChild(field('Niveau / résistance', draft.metrics.level, 'number', function (v) { draft.metrics.level = v; }));
+      g.appendChild(field('Calories (facultatif)', draft.calories, 'number', function (v) { draft.calories = v; }));
+      g.appendChild(field('FC moyenne (facultatif)', draft.heartRateAvg, 'number', function (v) { draft.heartRateAvg = v; }));
+      form.appendChild(g);
+      var noteI = el('input', 'text-input'); noteI.type = 'text'; noteI.placeholder = 'Note (facultatif)'; noteI.value = draft.note || ''; noteI.onchange = function () { draft.note = noteI.value; };
+      form.appendChild(noteI);
+      body.appendChild(form);
+
+      var save = el('button', 'btn primary', existing ? 'Enregistrer les modifications' : 'Enregistrer le cardio');
+      save.onclick = function () { saveCardio(dISO, draft, existing); };
+      body.appendChild(save);
+      if (existing) { var del = el('button', 'btn ghost danger', 'Supprimer ce cardio'); del.onclick = function () { if (confirm('Supprimer ce cardio ?')) { A.deleteCardioSession(existing.id); var ev = latestPlanFor(dISO); if (ev && ev.linkedId === existing.id) { ev.linkedId = null; ev.status = 'planned'; A.savePlannedEvent(ev); } toast('Cardio supprimé'); openDay(dISO); } }; body.appendChild(del); }
+    }
+  }
+  function field(label, val, type, onchange) {
+    var wrap = el('div', 'field');
+    wrap.appendChild(el('label', 'field-label', label));
+    var inp = el('input', 'text-input'); inp.type = type; if (type === 'number') inp.inputMode = 'decimal';
+    if (val != null) inp.value = val;
+    inp.onchange = function () { onchange(inp.value === '' ? null : (type === 'number' ? Number(inp.value) : inp.value)); };
+    wrap.appendChild(inp); return wrap;
+  }
+  function saveCardio(dISO, draft, existing) {
+    if (draft.durationMinutes == null || draft.durationMinutes === '' || !(draft.durationMinutes > 0)) { toast('La durée est obligatoire'); return; }
+    draft.date = dISO;
+    var saved = A.saveCardioSession(draft);
+    // relier au jour
+    var ev = latestPlanFor(dISO);
+    if (!ev) ev = { date: dISO, plannedType: 'cardio', status: 'planned', templateId: null, linkedId: null, source: 'user' };
+    ev.plannedType = 'cardio'; ev.linkedId = saved.id; ev.status = 'done';
+    A.savePlannedEvent(ev);
+    toast(existing ? 'Cardio modifié' : 'Cardio enregistré');
+    openDay(dISO);
+  }
+
+
 
 
   function viewSeance(main) {
@@ -1514,7 +1767,14 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       var lastCharge = null; en.sets.forEach(function (s) { if (s.charge != null) lastCharge = s.charge; });
       if (lastCharge != null) { var ex = A.getExercises().filter(function (e) { return e.id === en.exerciseId; })[0]; if (ex) { ex.startingLoad = { charge: lastCharge, date: draft.date, source: 'session' }; A.saveExercise(ex); } }
     });
-    A.saveWorkoutSession(session);
+    var savedSession = A.saveWorkoutSession(session);
+    // relier au jour planifié si la séance a été démarrée depuis la semaine
+    if (draft.planDate) {
+      var ev = A.getPlannedEvents().filter(function (p) { return p.date === draft.planDate; }).pop();
+      if (!ev) ev = { date: draft.planDate, plannedType: 'workout', status: 'planned', templateId: draft.templateId || null, linkedId: null, source: 'user' };
+      ev.plannedType = 'workout'; ev.linkedId = savedSession.id; ev.status = 'done';
+      A.savePlannedEvent(ev);
+    }
     A.clearDraft();
     toast('Séance enregistrée');
     renderApp('historique');
