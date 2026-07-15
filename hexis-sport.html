@@ -53,11 +53,11 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 .note{font-size:.82rem;color:var(--warn);background:#FBF1E6;border:1px solid #EBD9C4;border-radius:10px;padding:10px 12px;width:100%;margin:4px 0}
 
 /* boutons */
-.btn{appearance:none;border:none;border-radius:12px;padding:15px 18px;font-family:Inter;font-size:1rem;font-weight:600;
+.btn{appearance:none;border:none;border-radius:11px;padding:13px 16px;font-family:Inter;font-size:.98rem;font-weight:600;
   cursor:pointer;width:100%;margin-top:8px;transition:transform .06s ease}
 .btn:active{transform:scale(.985)}
 .btn.primary{background:var(--deep);color:#EAF3F0;box-shadow:var(--shadow)}
-.btn.ghost{background:transparent;color:var(--deep-2);border:1px solid var(--hair)}
+.btn.ghost{background:transparent;color:var(--graphite);border:1px solid var(--hair);font-weight:500;box-shadow:none}
 .btn.ghost.danger{color:var(--danger);border-color:#E4C4C8}
 .btn.small{width:auto;padding:9px 13px;font-size:.85rem;margin:0}
 .btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -70,7 +70,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 .screen-title{font-size:1.7rem;margin-bottom:16px}
 .sub{font-family:Inter;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--graphite);margin:22px 0 8px}
 
-.card{background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:12px 13px;box-shadow:var(--shadow);margin-bottom:9px}
 .card-eyebrow{font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;color:var(--graphite);margin-bottom:8px}
 .lead-card{background:linear-gradient(160deg,var(--deep),var(--deep-2));border:none;color:#EAF3F0}
 .lead-card .card-eyebrow{color:#9BB8B2}
@@ -109,7 +109,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 .back{background:none;border:none;color:var(--deep-2);font-size:.9rem;font-weight:600;padding:0;margin-bottom:14px;cursor:pointer}
 .legacy-note{display:flex;flex-direction:column;gap:3px;background:#FBF1E6;border:1px solid #EBD9C4;border-radius:12px;padding:12px 14px;margin-bottom:14px}
 .legacy-note b{font-size:.88rem;color:var(--warn)}.legacy-note span{font-size:.76rem;color:#9A7A54}
-.ex-card{padding:14px 15px}
+.ex-card{padding:11px 12px}
 .ex-name{font-family:Fraunces,serif;font-weight:600;font-size:1.12rem;margin-bottom:10px}
 .set-table{display:flex;flex-direction:column;gap:1px;background:var(--hair);border-radius:9px;overflow:hidden}
 .set-row{display:grid;grid-template-columns:56px 1fr 1fr;background:var(--card)}
@@ -139,11 +139,21 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
   padding:11px 18px;border-radius:11px;font-size:.88rem;opacity:0;transition:all .3s ease;z-index:50;pointer-events:none;max-width:88%}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* modale de confirmation intégrée */
+.modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(20,24,27,.45);padding:24px}
+.modal-box{background:var(--card);border-radius:16px;padding:20px;max-width:340px;width:100%;box-shadow:0 20px 50px -12px rgba(18,35,43,.5)}
+.modal-msg{font-size:.98rem;line-height:1.45;color:var(--ink);margin-bottom:16px}
+.modal-btns{display:flex;gap:8px}
+.modal-yes,.modal-no{flex:1;border:none;border-radius:11px;padding:12px;font-family:Inter;font-size:.92rem;font-weight:600;cursor:pointer}
+.modal-yes{background:var(--deep);color:#EAF3F0}
+.modal-yes.danger{background:var(--danger);color:#fff}
+.modal-no{background:transparent;color:var(--graphite);border:1px solid var(--hair)}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 :focus-visible{outline:2px solid var(--deep);outline-offset:2px}
 
 /* saisie texte / prénom */
-.text-input{width:100%;padding:13px 15px;border:1px solid var(--hair);border-radius:12px;background:var(--card);
+.text-input{width:100%;padding:10px 12px;border:1px solid var(--hair);border-radius:10px;background:var(--card);
   font-family:Inter;font-size:1rem;color:var(--ink);margin-top:8px}
 .small-input{width:auto;flex:1;min-width:0}
 .mini-form{display:flex;gap:8px;align-items:stretch;margin-top:4px}
@@ -152,10 +162,10 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 /* mode entraînement */
 .ex-top{margin-bottom:10px}
 .ex-presc{font-size:.78rem;color:var(--graphite);margin-top:3px}
-.log-row{display:grid;grid-template-columns:38px 1fr 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.log-row{display:grid;grid-template-columns:30px 1fr 1fr 1fr;gap:6px;align-items:center;margin-bottom:5px}
 .log-idx{font-family:"IBM Plex Mono",monospace;color:var(--graphite);font-size:.85rem}
 .log-cell{position:relative;display:flex;align-items:center}
-.log-input{width:100%;padding:12px 40px 12px 12px;border:1px solid var(--hair);border-radius:10px;background:var(--paper);
+.log-input{width:100%;padding:9px 34px 9px 10px;border:1px solid var(--hair);border-radius:9px;background:var(--paper);
   font-family:"IBM Plex Mono",monospace;font-size:1.05rem;color:var(--ink);font-variant-numeric:tabular-nums}
 .log-unit{position:absolute;right:10px;font-size:.7rem;color:var(--graphite);pointer-events:none}
 .log-rest{font-size:.72rem;color:var(--signal);white-space:nowrap}
@@ -201,26 +211,43 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 .seg-btn.active{background:var(--deep);color:#EAF3F0;border-color:var(--deep)}
 
 /* formulaire cardio */
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .field{display:flex;flex-direction:column;gap:4px}
 .field-label{font-size:.72rem;color:var(--graphite)}
 .field .text-input{margin-top:0}
 .chip.cardio{background:#E7EEF3;color:var(--deep-2)}
 
+/* menu de l'onglet Séance */
+.sub-actions{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--hair)}
+.seance-models{margin-bottom:12px}
+.menu-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.menu-item{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:16px;cursor:pointer;text-align:left}
+.menu-ico{font-size:1.1rem;width:26px;text-align:center;color:var(--deep-2)}
+.menu-tx{flex:1;display:flex;flex-direction:column;gap:2px}
+.menu-title{font-weight:600;font-size:1rem;color:var(--ink)}
+.menu-sub{font-size:.78rem;color:var(--graphite)}
+.menu-chev{color:var(--graphite);font-size:1.2rem}
+
+/* éditeur de modèle */
+.title-input{width:100%;font-family:Fraunces,serif;font-weight:600;font-size:1.5rem;border:none;border-bottom:2px solid var(--hair);background:transparent;padding:6px 2px;margin-bottom:14px;color:var(--ink)}
+.tmpl-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.tmpl-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:10px 12px}
+.arrows{display:flex;flex-direction:column;gap:2px}
+.arrow{background:var(--paper);border:1px solid var(--hair);border-radius:6px;width:30px;height:24px;font-size:.85rem;cursor:pointer;color:var(--deep-2);line-height:1}
+.arrow:disabled{opacity:.3;cursor:default}
+.tmpl-tx{flex:1}
+.tmpl-name{font-weight:600;font-size:.95rem}
+.tmpl-sub{font-size:.75rem;color:var(--graphite);margin-top:2px}
+.tmpl-rm{background:none;border:none;color:var(--danger);font-size:1.3rem;cursor:pointer;padding:0 4px;line-height:1}
+
 /* chrono de récupération */
-.rest-bar{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:55;display:flex;align-items:center;gap:14px;
-  background:var(--deep-2);color:#EAF3F0;padding:10px 16px;border-radius:14px;box-shadow:var(--shadow);max-width:94%}
-.rest-time{font-family:"IBM Plex Mono",monospace;font-size:1.05rem;font-weight:600;min-width:96px}
-.rest-ctrl{display:flex;gap:6px}
-.rest-btn{background:rgba(255,255,255,.12);border:none;color:#EAF3F0;border-radius:8px;padding:7px 11px;font-size:.82rem;font-weight:600;cursor:pointer}
-.rest-btn.done{background:var(--signal);color:#0A241C}
 .ex-name-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.rest-start{background:var(--deep);color:#EAF3F0;border:none;border-radius:9px;padding:7px 12px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
 .err-msg{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--danger);background:#F7E9E9;border:1px solid #E4C4C8;border-radius:10px;padding:10px 12px;width:100%;word-break:break-word}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<script>window.CARNET_CONFIG={"appName":"Hexis Sport","namespace":""};</script>
 <script>
 /* =====================================================================
    Carnet-Lamine — Moteur de migration v2 -> v3 (fonctions pures)
@@ -312,7 +339,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     const now = opts.now || new Date().toISOString();
     const deviceId = opts.deviceId || 'dev_test';
     const genId = makeIdFactory(opts.deterministicIds);
-    const appVersion = '1.2.0';
+    const appVersion = '1.5.1';
 
     const log = []; let seq = 0;
     function record(type, payload) { seq += 1; log.push(Object.assign({ sequence: seq, timestamp: now, type: type, status: 'success' }, payload)); }
@@ -328,7 +355,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     const reviewItems = []; // migrationReviewItems (hors workoutSessions)
 
     // ---- 1) Bibliothèque d'exercices + modèles A/B --------------------
-    const libByNorm = {}; // normalizedName -> exercise
+    const libsForNorm = {}; // normalizedName -> [exercices] (separes si objectifs divergents)
     const legacyExMap = {}; // group -> legacyId -> exerciseId (pour relier histories)
     const templates = {};
 
@@ -343,26 +370,29 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       arr.forEach(function (ex, idx) {
         const norm = normalizeName(ex.name);
         const objNorm = normalizeName(ex.objectif);
-        let lib = libByNorm[norm];
+        // candidats de même nom normalisé
+        const candidates = libsForNorm[norm] || (libsForNorm[norm] = []);
+        // objectifs "compatibles" = identiques, ou l'un des deux non renseigné
+        let lib = candidates.filter(function (c) {
+          const co = normalizeName(c.objective);
+          return !objNorm || !co || co === objNorm;
+        })[0];
         if (!lib) {
+          // aucun candidat compatible => nouvel exercice DISTINCT (objectifs divergents conservés séparés)
+          const divergent = candidates.length > 0;
           lib = Object.assign(base(), {
             id: genId('ex'), name: ex.name, normalizedName: norm,
             aliases: ex.name ? [ex.name] : [], objective: ex.objectif || null, machine: null,
             defaultTip: ex.tip || '',
-            migrationInfo: { legacyEntries: [], legacyPr: [], mergeConfidence: 'single-source' }
+            migrationInfo: { legacyEntries: [], legacyPr: [], mergeConfidence: divergent ? 'kept-separate-divergent-objective' : 'single-source' }
           });
-          libByNorm[norm] = lib;
+          candidates.push(lib);
           dataset.exercises.push(lib);
+          if (divergent) record('exercise-kept-separate', { newExerciseId: lib.id, reason: 'divergent-objective', warnings: ['Même nom « ' + ex.name +' » mais objectif différent : conservé séparément'] });
         } else {
-          // Fusion : objectif divergent => on fusionne mais on signale.
-          if (objNorm && normalizeName(lib.objective) && objNorm !== normalizeName(lib.objective)) {
-            lib.migrationInfo.mergeConfidence = 'needs-review';
-            lib.migrationInfo.objectiveVariants = Array.from(new Set([].concat(lib.migrationInfo.objectiveVariants || [lib.objective], [ex.objectif]).filter(Boolean)));
-            record('exercise-merge', { legacyEntries: lib.migrationInfo.legacyEntries.concat([{ group: group, id: ex.id }]), newExerciseId: lib.id, reason: 'normalized-name-match', mergeConfidence: 'needs-review', warnings: ['Objectifs divergents : ' + lib.migrationInfo.objectiveVariants.join(' / ')] });
-          } else {
-            if (lib.migrationInfo.mergeConfidence === 'single-source') lib.migrationInfo.mergeConfidence = 'exact-normalized-match';
-            record('exercise-merge', { legacyEntries: lib.migrationInfo.legacyEntries.concat([{ group: group, id: ex.id }]), newExerciseId: lib.id, reason: 'exact-normalized-match', mergeConfidence: 'exact-normalized-match' });
-          }
+          if (lib.migrationInfo.mergeConfidence === 'single-source') lib.migrationInfo.mergeConfidence = 'exact-normalized-match';
+          record('exercise-merge', { legacyEntries: lib.migrationInfo.legacyEntries.concat([{ group: group, id: ex.id }]), newExerciseId: lib.id, reason: 'exact-normalized-match', mergeConfidence: 'exact-normalized-match' });
+          if (!lib.objective && ex.objectif) lib.objective = ex.objectif; // complète un objectif manquant
           if (ex.name && lib.aliases.indexOf(ex.name) === -1) lib.aliases.push(ex.name);
           if (!lib.defaultTip && ex.tip) lib.defaultTip = ex.tip;
         }
@@ -749,6 +779,21 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     function deletePlannedEvent(id) { var d = ds(); d.plannedEvents = d.plannedEvents.filter(function (x) { return x.id !== id; }); persistActive(); }
     function saveExercise(x) { return upsert('exercises', x); }
     function saveTemplate(t) { return upsert('workoutTemplates', t); }
+    function setAppVersion(v) { var d = ds(); d.meta = d.meta || {}; if (d.meta.appVersion !== v) { d.meta.appVersion = v; persistActive(); } return v; }
+    function deleteTemplate(id) { var d = ds(); d.workoutTemplates = d.workoutTemplates.filter(function (x) { return x.id !== id; }); persistActive(); }
+    function deleteExercise(id) {
+      const d = ds();
+      pushBackup('delete-exercise', d);                 // sauvegarde interne avant l'opération
+      d.exercises = d.exercises.filter(function (x) { return x.id !== id; });
+      // retire aussi toutes les références dans les modèles + réindexe l'ordre
+      (d.workoutTemplates || []).forEach(function (t) {
+        var before = (t.items || []).length;
+        t.items = (t.items || []).filter(function (it) { return it.exerciseId !== id; });
+        if (t.items.length !== before) { t.items.forEach(function (it, k) { it.order = k + 1; }); t.updatedAt = new Date().toISOString(); }
+      });
+      persistActive();
+    }
+    function exerciseUsedIn(id) { return ds().workoutTemplates.filter(function (t) { return (t.items || []).some(function (it) { return it.exerciseId === id; }); }).map(function (t) { return t.name; }); }
     // --- Prénom / réglages ------------------------------------------
     function setUserName(name) { const d = ds(); d.settings = d.settings || {}; d.settings.userName = name; persistActive(); return name; }
     // --- Création d'exercice (bibliothèque) -------------------------
@@ -793,7 +838,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       const d = loadActive();
       if (d) {
         const clone = snapshotOf(d);
-        return { exportFormat: 'carnet-lamine', exportVersion: 1, schemaVersion: 3, appVersion: (d.meta && d.meta.appVersion) || '1.2.0', exportedAt: new Date().toISOString(), dataset: clone };
+        return { exportFormat: 'carnet-lamine', exportVersion: 1, schemaVersion: 3, appVersion: (d.meta && d.meta.appVersion) || '1.5.1', exportedAt: new Date().toISOString(), dataset: clone };
       }
       // pas encore migré : on exporte la v2 telle quelle
       const legacy = readJson(K_LEGACY);
@@ -853,7 +898,8 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       getBodyMeasurements: getBodyMeasurements, getCardioSessions: getCardioSessions, getWeeklyReviews: getWeeklyReviews,
       getMigrationReviewItems: getMigrationReviewItems, getMigrationLog: getMigrationLog, getMeta: getMeta, getSettings: getSettings,
       saveWorkoutSession: saveWorkoutSession, saveBodyMeasurement: saveBodyMeasurement, saveCardioSession: saveCardioSession, saveExercise: saveExercise,
-      savePlannedEvent: savePlannedEvent, deleteCardioSession: deleteCardioSession, deletePlannedEvent: deletePlannedEvent,
+      savePlannedEvent: savePlannedEvent, deleteCardioSession: deleteCardioSession, deletePlannedEvent: deletePlannedEvent, setAppVersion: setAppVersion,
+      deleteTemplate: deleteTemplate, deleteExercise: deleteExercise, exerciseUsedIn: exerciseUsedIn,
       setUserName: setUserName, createExercise: createExercise, saveTemplate: saveTemplate, getDraft: getDraft, saveDraft: saveDraft, clearDraft: clearDraft,
       resolveMigrationReviewItem: resolveMigrationReviewItem, acceptAllStartingLoads: acceptAllStartingLoads,
       exportAll: exportAll, importAny: importAny, diagnostics: diagnostics, wipeNamespace: wipeNamespace, _deviceId: function () { return deviceId2(); }
@@ -874,6 +920,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
   var A = null;               // adaptateur
   var root = document.getElementById('app');
   var APP_NAME = (window.CARNET_CONFIG && window.CARNET_CONFIG.appName) || 'Hexis Sport';
+  var APP_VERSION = '1.5.1';
   var USER = 'toi';
   function loadUser() { try { var s = A.getSettings(); if (s && s.userName) USER = s.userName; } catch (e) {} }
 
@@ -895,6 +942,22 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     try { var d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : '')); return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); } catch (e) { return iso; }
   }
   function toast(msg) { var t = el('div', 'toast', msg); document.body.appendChild(t); setTimeout(function () { t.classList.add('show'); }, 10); setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 300); }, 2600); }
+  // Confirmation intégrée (ne dépend pas du confirm() natif, parfois bloqué sur iPhone)
+  function askConfirm(message, onYes, opts) {
+    opts = opts || {};
+    var old = document.getElementById('confirm-modal'); if (old) old.remove();
+    var overlay = el('div', 'modal-overlay'); overlay.id = 'confirm-modal';
+    var box = el('div', 'modal-box');
+    box.appendChild(el('div', 'modal-msg', message));
+    var btns = el('div', 'modal-btns');
+    var yes = el('button', 'modal-yes' + (opts.danger ? ' danger' : '')); yes.textContent = opts.yesLabel || 'Confirmer';
+    yes.onclick = function () { overlay.remove(); onYes(); };
+    var no = el('button', 'modal-no'); no.textContent = opts.noLabel || 'Annuler';
+    no.onclick = function () { overlay.remove(); };
+    btns.appendChild(no); btns.appendChild(yes);
+    box.appendChild(btns); overlay.appendChild(box);
+    document.body.appendChild(overlay);
+  }
 
   // ---- BOOT ----------------------------------------------------------
   function boot() {
@@ -902,7 +965,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       var cfg = window.CARNET_CONFIG || {};
       A = window.CarnetStorage.createAdapter(window.localStorage, { namespace: cfg.namespace || '' });
       if (A.needsMigration()) return renderMigrationIntro();
-      if (A.diagnostics().active === 'v3') { loadUser(); if (!USER || USER === 'toi') return renderNameOnly(); return renderApp('accueil'); }
+      if (A.diagnostics().active === 'v3') { try { A.setAppVersion(APP_VERSION); } catch (e) {} loadUser(); if (!USER || USER === 'toi') return renderNameOnly(); return renderApp('accueil'); }
       return renderEmpty();
     } catch (e) { return renderError(e, 'démarrage'); }
   }
@@ -923,7 +986,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     var cfg = window.CARNET_CONFIG || {};
     if (cfg.namespace) { // édition test seulement : repartir de zéro sans risque
       var bz = el('button', 'btn ghost danger', 'Repartir à zéro (édition test)');
-      bz.onclick = function () { if (confirm('Effacer cette édition test et repartir vierge ?')) { try { A.wipeNamespace(); } catch (x) {} boot(); } };
+      bz.onclick = function () { askConfirm('Effacer cette édition test et repartir vierge ?', function () { try { A.wipeNamespace(); } catch (x) {} boot(); }, { danger: true, yesLabel: 'Effacer' }); };
       w.appendChild(bz);
     }
     root.appendChild(w);
@@ -957,7 +1020,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     root.appendChild(w);
   }
   function startEmpty() {
-    var empty = { exportFormat: 'carnet-lamine', schemaVersion: 3, dataset: { meta: { schemaVersion: 3, appVersion: '1.3.0', appName: APP_NAME, deviceId: A._deviceId() }, exercises: [], workoutTemplates: [], workoutSessions: [], plannedEvents: [], bodyMeasurements: [], cardioSessions: [], weeklyReviews: [], settings: {}, migrationReviewItems: [], migrationLog: null } };
+    var empty = { exportFormat: 'carnet-lamine', schemaVersion: 3, dataset: { meta: { schemaVersion: 3, appVersion: APP_VERSION, appName: APP_NAME, deviceId: A._deviceId() }, exercises: [], workoutTemplates: [], workoutSessions: [], plannedEvents: [], bodyMeasurements: [], cardioSessions: [], weeklyReviews: [], settings: {}, migrationReviewItems: [], migrationLog: null } };
     A.importAny(empty);
   }
 
@@ -1371,7 +1434,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
         var it = el('button', 'list-item');
         var left = el('div', 'li-left'); left.appendChild(el('div', 'li-date', new Date(b.createdAt).toLocaleString('fr-FR'))); left.appendChild(el('div', 'li-sub', b.reason)); it.appendChild(left);
         it.appendChild(el('span', 'chip', 'restaurer'));
-        it.onclick = function () { if (confirm('Restaurer cette sauvegarde ? Le carnet actuel sera d\'abord sauvegardé.')) { A.restoreBackup(b.id); toast('Restauré'); renderApp('accueil'); } };
+        it.onclick = function () { askConfirm('Restaurer cette sauvegarde ? Le carnet actuel sera sauvegardé avant.', function () { A.restoreBackup(b.id); toast('Restauré'); renderApp('accueil'); }, { yesLabel: 'Restaurer' }); };
         list.appendChild(it);
       });
       main.appendChild(list);
@@ -1381,7 +1444,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     if (d.hasV2Snapshot) {
       main.appendChild(el('h2', 'sub', 'Ancien carnet'));
       var rb = el('button', 'btn ghost danger', 'Revenir à l\'ancien carnet (v2)');
-      rb.onclick = function () { if (confirm('Revenir à ton ancien carnet ? Tes données v3 actuelles seront sauvegardées avant.')) { A.rollbackToLegacyV2(); toast('Retour à l\'ancien carnet'); boot(); } };
+      rb.onclick = function () { askConfirm('Revenir à ton ancien carnet ? Tes données actuelles seront sauvegardées avant.', function () { A.rollbackToLegacyV2(); toast('Retour à l\'ancien carnet'); boot(); }, { danger: true, yesLabel: 'Revenir' }); };
       main.appendChild(rb);
     }
   }
@@ -1480,14 +1543,18 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       main.appendChild(b);
       if (linked) main.appendChild(sessionSummaryCard(linked, dISO));
     } else if (ev.plannedType === 'cardio') {
-      if (linked) { main.appendChild(cardioSummaryCard(linked)); var e = el('button', 'btn ghost', 'Modifier ce cardio'); e.onclick = function () { cardioForm(dISO, linked.id); }; main.appendChild(e); }
+      if (linked) {
+        main.appendChild(cardioSummaryCard(linked));
+        var e = el('button', 'btn ghost', 'Modifier ce cardio'); e.onclick = function () { cardioForm(dISO, linked.id); }; main.appendChild(e);
+        var del = el('button', 'btn ghost danger', 'Supprimer ce cardio'); del.onclick = function () { askConfirm('Supprimer ce cardio ? L\'entrée disparaîtra de l\'historique.', function () { A.deleteCardioSession(linked.id); ev.linkedId = null; ev.status = 'planned'; A.savePlannedEvent(ev); toast('Cardio supprimé'); openDay(dISO); }, { danger: true, yesLabel: 'Supprimer' }); }; main.appendChild(del);
+      }
       else { var b2 = el('button', 'btn primary', 'Enregistrer le cardio'); b2.onclick = function () { cardioForm(dISO, null); }; main.appendChild(b2); }
     } else { // rest / active-recovery
       if (ev.status === 'done') {
         main.appendChild(el('p', 'lede small', 'Marqué comme fait.'));
         var un = el('button', 'btn ghost', 'Annuler « fait »'); un.onclick = function () { ev.status = 'planned'; A.savePlannedEvent(ev); openDay(dISO); }; main.appendChild(un);
       } else {
-        var done = el('button', 'btn primary', 'Marquer comme fait'); done.onclick = function () { ev.status = 'done'; A.savePlannedEvent(ev); toast('Marqué comme fait'); openDay(dISO); }; main.appendChild(done);
+        var done = el('button', 'btn primary', 'Marquer comme fait'); done.onclick = function () { askConfirm('Marquer ce jour comme fait ?', function () { ev.status = 'done'; A.savePlannedEvent(ev); toast('Marqué comme fait'); openDay(dISO); }, { yesLabel: 'Marquer fait' }); }; main.appendChild(done);
         var cancel = el('button', 'btn ghost', 'Annuler'); cancel.onclick = function () { renderApp('accueil'); }; main.appendChild(cancel);
       }
     }
@@ -1565,7 +1632,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       var save = el('button', 'btn primary', existing ? 'Enregistrer les modifications' : 'Enregistrer le cardio');
       save.onclick = function () { saveCardio(dISO, draft, existing); };
       body.appendChild(save);
-      if (existing) { var del = el('button', 'btn ghost danger', 'Supprimer ce cardio'); del.onclick = function () { if (confirm('Supprimer ce cardio ?')) { A.deleteCardioSession(existing.id); var ev = latestPlanFor(dISO); if (ev && ev.linkedId === existing.id) { ev.linkedId = null; ev.status = 'planned'; A.savePlannedEvent(ev); } toast('Cardio supprimé'); openDay(dISO); } }; body.appendChild(del); }
+      if (existing) { var del = el('button', 'btn ghost danger', 'Supprimer ce cardio'); del.onclick = function () { askConfirm('Supprimer ce cardio ?', function () { A.deleteCardioSession(existing.id); var ev = latestPlanFor(dISO); if (ev && ev.linkedId === existing.id) { ev.linkedId = null; ev.status = 'planned'; A.savePlannedEvent(ev); } toast('Cardio supprimé'); openDay(dISO); }, { danger: true, yesLabel: 'Supprimer' }); }; body.appendChild(del); }
     }
   }
   function field(label, val, type, onchange) {
@@ -1592,17 +1659,72 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 
 
 
+  // Catalogue d'exercices proposés (noms réels de machines/mouvements, par muscle)
+  var EXERCISE_CATALOG = [
+    ['Jambes', ['Presse à cuisses (Leg Press)', 'Leg Extension (quadriceps)', 'Leg Curl allongé (ischios)', 'Leg Curl assis', 'Hack Squat', 'Squat (barre)', 'Squat guidé (Smith)', 'Fentes', 'Soulevé de terre roumain', 'Machine adducteurs', 'Machine abducteurs', 'Hip Thrust (fessiers)', 'Extension de hanche poulie', 'Mollets debout', 'Mollets assis', 'Presse à mollets']],
+    ['Pectoraux', ['Développé couché (barre)', 'Développé couché haltères', 'Développé incliné haltères', 'Chest Press (développé assis machine)', 'Pec Deck (Butterfly)', 'Écartés à la poulie', 'Pompes', 'Dips']],
+    ['Dos', ['Tirage vertical (Lat Pulldown)', 'Rowing assis (Low Row)', 'Rowing haltère', 'Rowing barre', 'T-Bar Row', 'Tractions', 'Pull-over']],
+    ['Épaules', ['Développé militaire (barre)', 'Développé épaules haltères', 'Shoulder Press (machine)', 'Élévations latérales', 'Élévations frontales', 'Oiseau (Rear Delt / Reverse Fly)', 'Face pull']],
+    ['Biceps', ['Curl haltères', 'Curl barre', 'Curl pupitre (Larry Scott)', 'Curl à la poulie', 'Curl marteau', 'Machine biceps']],
+    ['Triceps', ['Extension à la poulie (pushdown)', 'Barre au front', 'Extension nuque haltère', 'Dips machine', 'Machine triceps', 'Kickback']],
+    ['Abdominaux', ['Total Abdominal (machine)', 'Crunch', 'Crunch à la poulie', 'Relevé de jambes', 'Gainage (planche)', 'Obliques (rotation)', 'Roulette abdominale']]
+  ];
+  function catalogFlat() { var out = []; EXERCISE_CATALOG.forEach(function (grp) { grp[1].forEach(function (n) { out.push({ name: n, group: grp[0] }); }); }); return out; }
+
   function viewSeance(main) {
     var draft = A.getDraft();
-    if (!draft) return seanceStart(main);
-    seanceLog(main, draft);
-  }
-
-  // -- Choisir le type de séance --------------------------------------
-  function seanceStart(main) {
-    main.appendChild(el('h1', 'display screen-title', 'Nouvelle séance'));
-    main.appendChild(el('p', 'lede small', 'Choisis une séance de ton programme, ou pars d\'une séance libre. Tu enregistres charge et répétitions série par série, puis tu valides.'));
+    if (draft && SEANCE_FORCE_MENU !== true) return seanceLog(main, draft);
+    SEANCE_FORCE_MENU = false;
+    main.appendChild(el('h1', 'display screen-title', 'Séance'));
+    if (draft) {
+      var resume = el('button', 'btn primary', '▶ Reprendre la séance en cours');
+      resume.onclick = function () { renderApp('seance'); }; main.appendChild(resume);
+    }
+    // modèles A/B/C directement (un appui = démarrer)
     var templates = A.getTemplates();
+    if (templates.length) {
+      var list = el('div', 'list seance-models');
+      templates.forEach(function (t) {
+        var b = el('button', 'list-item');
+        var left = el('div', 'li-left'); left.appendChild(el('div', 'li-date', t.name)); left.appendChild(el('div', 'li-sub', t.items.length + ' exercice(s)')); b.appendChild(left);
+        b.appendChild(el('span', 'chip', 'démarrer'));
+        b.onclick = function () { startDraftFromTemplate(t); renderApp('seance'); };
+        list.appendChild(b);
+      });
+      main.appendChild(list);
+    } else {
+      main.appendChild(el('p', 'lede small', 'Crée ta première séance type (A, B, C…) ou lance une séance libre.'));
+    }
+    var addModel = el('button', 'btn primary', '＋ Nouveau modèle (Séance A, B, C…)');
+    addModel.onclick = function () { var t = A.saveTemplate({ name: 'Séance ' + nextLetter(), items: [], source: 'user' }); templateEditor(t.id); };
+    main.appendChild(addModel);
+    // actions secondaires, discrètes
+    var sec = el('div', 'sub-actions');
+    var libre = el('button', 'link-btn', 'Séance libre'); libre.onclick = function () { A.saveDraft({ type: 'Séance libre', templateId: null, date: todayISO(), startedAt: new Date().toISOString(), entries: [] }); renderApp('seance'); };
+    var gerer = el('button', 'link-btn', 'Gérer mes modèles'); gerer.onclick = function () { viewModeles(main); };
+    var biblio = el('button', 'link-btn', 'Bibliothèque'); biblio.onclick = function () { viewBibliotheque(main); };
+    sec.appendChild(libre); sec.appendChild(gerer); sec.appendChild(biblio);
+    main.appendChild(sec);
+  }
+  function nextLetter() {
+    var used = A.getTemplates().map(function (t) { return (t.name.match(/^Séance ([A-Z])$/) || [])[1]; }).filter(Boolean);
+    for (var i = 0; i < 26; i++) { var L = String.fromCharCode(65 + i); if (used.indexOf(L) < 0) return L; }
+    return '';
+  }
+  var SEANCE_FORCE_MENU = false;
+  function menuItem(icon, title, sub, onclick) {
+    var b = el('button', 'menu-item');
+    b.appendChild(el('span', 'menu-ico', icon));
+    var tx = el('span', 'menu-tx'); tx.appendChild(el('span', 'menu-title', title)); tx.appendChild(el('span', 'menu-sub', sub)); b.appendChild(tx);
+    b.appendChild(el('span', 'menu-chev', '›'));
+    b.onclick = onclick; return b;
+  }
+  function seancePickTemplate(main) {
+    clear(main);
+    var back = el('button', 'back', '‹ Séance'); back.onclick = function () { renderApp('seance'); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', 'Démarrer une séance'));
+    var templates = A.getTemplates();
+    if (!templates.length) { main.appendChild(el('p', 'empty', 'Aucun modèle. Crée-en un dans « Mes modèles », ou lance une séance libre.')); return; }
     var list = el('div', 'list');
     templates.forEach(function (t) {
       var b = el('button', 'list-item');
@@ -1612,9 +1734,205 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       list.appendChild(b);
     });
     main.appendChild(list);
-    var free = el('button', 'btn ghost', 'Séance libre (sans modèle)');
-    free.onclick = function () { A.saveDraft({ type: 'libre', templateId: null, date: todayISO(), startedAt: new Date().toISOString(), entries: [] }); renderApp('seance'); };
-    main.appendChild(free);
+  }
+
+
+
+  // ── Bibliothèque d'exercices ───────────────────────────────────────
+  function viewBibliotheque(main) {
+    clear(main);
+    var back = el('button', 'back', '‹ Séance'); back.onclick = function () { renderApp('seance'); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', 'Bibliothèque d\'exercices'));
+    var addB = el('button', 'btn primary', '＋ Nouvel exercice'); addB.onclick = function () { exerciseForm(null); }; main.appendChild(addB);
+    var exs = A.getExercises().slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
+    if (!exs.length) { main.appendChild(el('p', 'empty', 'Aucun exercice. Ajoute-en un, ou pioche dans les suggestions à la création d\'un modèle.')); return; }
+    var search = el('input', 'text-input'); search.type = 'text'; search.placeholder = 'Rechercher (ex. pec, tirage, curl…)'; main.appendChild(search);
+    var listWrap = el('div'); listWrap.id = 'biblio-list'; main.appendChild(listWrap);
+    function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+    function render() {
+      var q = norm(search.value); clear(listWrap);
+      var match = exs.filter(function (e) { return !q || norm(e.name).indexOf(q) >= 0; });
+      if (!match.length) { listWrap.appendChild(el('p', 'empty', 'Aucun exercice ne correspond.')); return; }
+      var list = el('div', 'list');
+      match.forEach(function (ex) {
+        var b = el('button', 'list-item');
+        var left = el('div', 'li-left'); left.appendChild(el('div', 'li-date', ex.name));
+        var d = ex.defaults || {}; var bits = [];
+        if (ex.startingLoad && ex.startingLoad.charge != null) bits.push(ex.startingLoad.charge + ' kg');
+        if (d.setsTarget) bits.push(d.setsTarget + '×' + (d.repsTarget || '—'));
+        if (d.restSeconds != null) bits.push('récup ' + d.restSeconds + 's');
+        left.appendChild(el('div', 'li-sub', bits.join(' · ') || 'à compléter')); b.appendChild(left);
+        b.appendChild(el('span', 'menu-chev', '›'));
+        b.onclick = function () { exerciseForm(ex.id); };
+        list.appendChild(b);
+      });
+      listWrap.appendChild(list);
+    }
+    search.oninput = render; render();
+  }
+  function exerciseForm(id) {
+    var ex = id ? A.getExercises().filter(function (e) { return e.id === id; })[0] : null;
+    var draft = ex ? JSON.parse(JSON.stringify(ex)) : { name: '', startingLoad: null, defaults: { setsTarget: 3, repsTarget: '10-12', restSeconds: 90 }, note: '' };
+    draft.defaults = draft.defaults || { setsTarget: 3, repsTarget: '10-12', restSeconds: 90 };
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Bibliothèque'); back.onclick = function () { viewBibliotheque(main); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', ex ? 'Modifier l\'exercice' : 'Nouvel exercice'));
+    var form = el('section', 'card');
+    var nameI = el('input', 'text-input'); nameI.type = 'text'; nameI.placeholder = 'Nom de l\'exercice'; nameI.value = draft.name || ''; nameI.onchange = function () { draft.name = nameI.value; };
+    form.appendChild(nameI);
+    var g = el('div', 'field-grid');
+    g.appendChild(field('Charge de départ (kg)', draft.startingLoad ? draft.startingLoad.charge : null, 'number', function (v) { draft.startingLoad = v == null ? null : { charge: v, date: todayISO(), source: 'user' }; }));
+    g.appendChild(field('Nombre de séries', draft.defaults.setsTarget, 'number', function (v) { draft.defaults.setsTarget = v; }));
+    g.appendChild(fieldText('Répétitions (ex. 10-12)', draft.defaults.repsTarget, function (v) { draft.defaults.repsTarget = v; }));
+    g.appendChild(field('Repos prévu (s)', draft.defaults.restSeconds, 'number', function (v) { draft.defaults.restSeconds = v; }));
+    form.appendChild(g);
+    var noteI = el('input', 'text-input'); noteI.type = 'text'; noteI.placeholder = 'Note (facultatif)'; noteI.value = draft.note || ''; noteI.onchange = function () { draft.note = noteI.value; };
+    form.appendChild(noteI);
+    main.appendChild(form);
+    var save = el('button', 'btn primary', 'Enregistrer l\'exercice');
+    save.onclick = function () {
+      if (!(draft.name || '').trim()) { toast('Donne un nom à l\'exercice'); return; }
+      if (ex) { Object.assign(ex, draft); A.saveExercise(ex); } else { var created = A.createExercise(draft.name.trim(), draft.startingLoad ? draft.startingLoad.charge : null); created.defaults = draft.defaults; created.note = draft.note || ''; A.saveExercise(created); }
+      toast('Exercice enregistré'); viewBibliotheque(main);
+    };
+    main.appendChild(save);
+    if (ex) {
+      var del = el('button', 'btn ghost danger', 'Supprimer cet exercice');
+      del.onclick = function () {
+        var used = A.exerciseUsedIn(ex.id);
+        var msg = used.length ? 'Cet exercice est utilisé dans : ' + used.join(', ') + '. Le supprimer le retirera de ces modèles. Continuer ?' : 'Supprimer cet exercice de la bibliothèque ?';
+        askConfirm(msg, function () { A.deleteExercise(ex.id); toast('Exercice supprimé'); viewBibliotheque(main); }, { danger: true, yesLabel: 'Supprimer' });
+      };
+      main.appendChild(del);
+    }
+  }
+  function fieldText(label, val, onchange) {
+    var wrap = el('div', 'field'); wrap.appendChild(el('label', 'field-label', label));
+    var inp = el('input', 'text-input'); inp.type = 'text'; if (val != null) inp.value = val;
+    inp.onchange = function () { onchange(inp.value === '' ? null : inp.value); };
+    wrap.appendChild(inp); return wrap;
+  }
+
+  // ── Mes modèles ────────────────────────────────────────────────────
+  function viewModeles(main) {
+    clear(main);
+    var back = el('button', 'back', '‹ Séance'); back.onclick = function () { renderApp('seance'); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', 'Mes modèles'));
+    var addB = el('button', 'btn primary', '＋ Nouveau modèle'); addB.onclick = function () { var t = A.saveTemplate({ name: 'Nouvelle séance', items: [], source: 'user' }); templateEditor(t.id); }; main.appendChild(addB);
+    var tpls = A.getTemplates();
+    if (!tpls.length) { main.appendChild(el('p', 'empty', 'Aucun modèle. Crée ta première séance (A, B, C… ou un nom libre).')); return; }
+    var list = el('div', 'list');
+    tpls.forEach(function (t) {
+      var b = el('button', 'list-item');
+      var left = el('div', 'li-left'); left.appendChild(el('div', 'li-date', t.name)); left.appendChild(el('div', 'li-sub', t.items.length + ' exercice(s)')); b.appendChild(left);
+      b.appendChild(el('span', 'menu-chev', '›'));
+      b.onclick = function () { templateEditor(t.id); };
+      list.appendChild(b);
+    });
+    main.appendChild(list);
+  }
+  function templateEditor(id) {
+    var t = A.getTemplates().filter(function (x) { return x.id === id; })[0]; if (!t) return viewModeles(document.getElementById('main'));
+    var exById = {}; A.getExercises().forEach(function (e) { exById[e.id] = e; });
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Mes modèles'); back.onclick = function () { viewModeles(main); }; main.appendChild(back);
+    // nom du modèle (éditable)
+    var nameI = el('input', 'title-input'); nameI.type = 'text'; nameI.value = t.name; nameI.onchange = function () { t.name = (nameI.value || '').trim() || t.name; A.saveTemplate(t); };
+    main.appendChild(nameI);
+
+    t.items = t.items || [];
+    t.items.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+    var list = el('div', 'tmpl-list');
+    t.items.forEach(function (it, i) {
+      var ex = exById[it.exerciseId];
+      var row = el('div', 'tmpl-row');
+      var up = el('button', 'arrow'); up.textContent = '↑'; up.disabled = i === 0; up.onclick = function () { moveItem(t, i, -1); };
+      var down = el('button', 'arrow'); down.textContent = '↓'; down.disabled = i === t.items.length - 1; down.onclick = function () { moveItem(t, i, 1); };
+      var arrows = el('div', 'arrows'); arrows.appendChild(up); arrows.appendChild(down);
+      row.appendChild(arrows);
+      var tx = el('button', 'tmpl-tx');
+      tx.appendChild(el('div', 'tmpl-name', ex ? ex.name : '(exercice supprimé)'));
+      var p = it.prescription || {}; tx.appendChild(el('div', 'tmpl-sub', (p.setsTarget || 3) + '×' + (p.repsTarget || '—') + ' · récup ' + (p.restSeconds != null ? p.restSeconds : 90) + 's · modifier'));
+      tx.onclick = function () { templateItemEditor(id, i); };
+      row.appendChild(tx);
+      var rm = el('button', 'tmpl-rm'); rm.textContent = '×'; rm.title = 'Retirer'; rm.onclick = function () { t.items.splice(i, 1); reindex(t); A.saveTemplate(t); templateEditor(id); };
+      row.appendChild(rm);
+      list.appendChild(row);
+    });
+    main.appendChild(list);
+
+    var addEx = el('button', 'btn primary', '＋ Ajouter un exercice'); addEx.onclick = function () { exercisePicker(id); }; main.appendChild(addEx);
+    var dup = el('button', 'btn ghost', 'Dupliquer ce modèle'); dup.onclick = function () { var copy = JSON.parse(JSON.stringify(t)); delete copy.id; copy.name = t.name + ' (copie)'; A.saveTemplate(copy); toast('Modèle dupliqué'); viewModeles(main); }; main.appendChild(dup);
+    var del = el('button', 'btn ghost danger', 'Supprimer ce modèle'); del.onclick = function () { askConfirm('Supprimer le modèle « ' + t.name + ' » ? (Tes séances déjà enregistrées ne changent pas.)', function () { A.deleteTemplate(id); toast('Modèle supprimé'); viewModeles(main); }, { danger: true, yesLabel: 'Supprimer' }); }; main.appendChild(del);
+  }
+  function moveItem(t, i, dir) { var j = i + dir; if (j < 0 || j >= t.items.length) return; var tmp = t.items[i]; t.items[i] = t.items[j]; t.items[j] = tmp; reindex(t); A.saveTemplate(t); templateEditor(t.id); }
+  function reindex(t) { t.items.forEach(function (it, k) { it.order = k + 1; }); }
+  // Éditeur de prescription PROPRE au modèle (ne touche pas la bibliothèque)
+  function templateItemEditor(templateId, index) {
+    var t = A.getTemplates().filter(function (x) { return x.id === templateId; })[0]; if (!t) return;
+    var it = t.items[index]; if (!it) return templateEditor(templateId);
+    var ex = A.getExercises().filter(function (e) { return e.id === it.exerciseId; })[0];
+    var p = Object.assign({ setsTarget: 3, repsTarget: '10-12', restSeconds: 90, noteOverride: null }, it.prescription || {});
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Modèle'); back.onclick = function () { templateEditor(templateId); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', ex ? ex.name : 'Exercice'));
+    main.appendChild(el('p', 'lede small', 'Ces valeurs sont propres à « ' + t.name +' ». Elles ne changent pas la bibliothèque.'));
+    var form = el('section', 'card'); var g = el('div', 'field-grid');
+    g.appendChild(field('Séries prévues', p.setsTarget, 'number', function (v) { p.setsTarget = v; }));
+    g.appendChild(fieldText('Répétitions (ex. 10-12)', p.repsTarget, function (v) { p.repsTarget = v; }));
+    g.appendChild(field('Repos prévu (s)', p.restSeconds, 'number', function (v) { p.restSeconds = v; }));
+    form.appendChild(g);
+    var noteI = el('input', 'text-input'); noteI.type = 'text'; noteI.placeholder = 'Note pour cet exercice dans ce modèle (facultatif)'; noteI.value = p.noteOverride || ''; noteI.onchange = function () { p.noteOverride = noteI.value || null; };
+    form.appendChild(noteI);
+    main.appendChild(form);
+    var save = el('button', 'btn primary', 'Enregistrer');
+    save.onclick = function () { it.prescription = p; t.updatedAt = new Date().toISOString(); A.saveTemplate(t); toast('Prescription mise à jour'); templateEditor(templateId); };
+    main.appendChild(save);
+  }
+  // Sélecteur d'exercice avec recherche (bibliothèque + catalogue)
+  function exercisePicker(templateId) {
+    var main = document.getElementById('main'); clear(main);
+    var back = el('button', 'back', '‹ Modèle'); back.onclick = function () { templateEditor(templateId); }; main.appendChild(back);
+    main.appendChild(el('h1', 'display screen-title', 'Ajouter un exercice'));
+    var search = el('input', 'text-input'); search.type = 'text'; search.placeholder = 'Rechercher (ex. tirage, presse, curl…)'; main.appendChild(search);
+    var results = el('div'); results.id = 'picker-results'; main.appendChild(results);
+    function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+    function render() {
+      var q = norm(search.value);
+      clear(results);
+      var lib = A.getExercises().slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
+      var libMatch = lib.filter(function (e) { return !q || norm(e.name).indexOf(q) >= 0; });
+      if (libMatch.length) {
+        results.appendChild(el('div', 'card-eyebrow', 'Ta bibliothèque'));
+        var l1 = el('div', 'list'); libMatch.forEach(function (e) { l1.appendChild(pickRow(e.name, function () { addToTemplate(templateId, e); })); }); results.appendChild(l1);
+      }
+      var libNames = {}; lib.forEach(function (e) { libNames[norm(e.name)] = true; });
+      var cat = catalogFlat().filter(function (c) { return (!q || norm(c.name).indexOf(q) >= 0) && !libNames[norm(c.name)]; });
+      if (cat.length) {
+        results.appendChild(el('div', 'card-eyebrow', 'Suggestions'));
+        var l2 = el('div', 'list'); cat.slice(0, 40).forEach(function (c) { l2.appendChild(pickRow(c.name, function () { var ex = A.createExercise(c.name, null); addToTemplate(templateId, ex); }, c.group)); }); results.appendChild(l2);
+      }
+      if (q && !libMatch.length) {
+        var createB = el('button', 'btn ghost', '＋ Créer « ' + search.value.trim() + ' »');
+        createB.onclick = function () { var ex = A.createExercise(search.value.trim(), null); addToTemplate(templateId, ex); };
+        results.appendChild(createB);
+      }
+    }
+    function pickRow(name, onclick, group) {
+      var b = el('button', 'list-item');
+      var left = el('div', 'li-left'); left.appendChild(el('div', 'li-date', name)); if (group) left.appendChild(el('div', 'li-sub', group)); b.appendChild(left);
+      b.appendChild(el('span', 'chip', 'ajouter')); b.onclick = onclick; return b;
+    }
+    search.oninput = render; render();
+  }
+  function addToTemplate(templateId, ex) {
+    var t = A.getTemplates().filter(function (x) { return x.id === templateId; })[0]; if (!t) return;
+    t.items = t.items || [];
+    var d = ex.defaults || {};
+    t.items.push({ exerciseId: ex.id, order: t.items.length + 1, prescription: { setsTarget: d.setsTarget || 3, repsTarget: d.repsTarget || '10-12', restSeconds: d.restSeconds != null ? d.restSeconds : 90 } });
+    A.saveTemplate(t);
+    toast(ex.name + ' ajouté');
+    templateEditor(templateId);
   }
 
   function startDraftFromTemplate(t) {
@@ -1632,6 +1950,9 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 
   // -- Écran de saisie de la séance en cours --------------------------
   function seanceLog(main, draft) {
+    var menuLink = el('button', 'back', '‹ Menu Séance (modèles, bibliothèque)');
+    menuLink.onclick = function () { SEANCE_FORCE_MENU = true; renderApp('seance'); };
+    main.appendChild(menuLink);
     var head = el('header', 'hd');
     head.appendChild(el('div', 'eyebrow', 'Séance en cours'));
     head.appendChild(el('h1', 'display hello', draft.type));
@@ -1697,7 +2018,7 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
     valid.onclick = function () { validateSession(draft); };
     main.appendChild(valid);
     var cancel = el('button', 'btn ghost danger', 'Abandonner cette séance');
-    cancel.onclick = function () { if (confirm('Abandonner la séance en cours ? Rien ne sera enregistré.')) { A.clearDraft(); renderApp('accueil'); } };
+    cancel.onclick = function () { askConfirm('Abandonner la séance en cours ? Rien ne sera enregistré.', function () { A.clearDraft(); renderApp('accueil'); }, { danger: true, yesLabel: 'Abandonner' }); };
     main.appendChild(cancel);
 
 
@@ -1748,8 +2069,9 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
 
   // -- Valider la séance : crée une vraie workoutSession --------------
   function validateSession(draft) {
-    var hasData = draft.entries.some(function (en) { return en.sets.some(function (s) { return s.reps != null || s.charge != null; }); });
-    if (!hasData) { toast('Saisis au moins une série avant de valider'); return; }
+    function realSet(s) { return s.reps != null && s.reps > 0; }   // une série n'est "faite" que si des reps sont saisies
+    var hasData = draft.entries.some(function (en) { return en.sets.some(realSet); });
+    if (!hasData) { toast('Saisis au moins les répétitions d\'une série avant de valider'); return; }
     var started = draft.startedAt ? new Date(draft.startedAt) : null;
     var now = new Date();
     var session = {
@@ -1759,12 +2081,12 @@ body{max-width:560px;margin:0 auto;min-height:100dvh}
       durationSeconds: started ? Math.round((now - started) / 1000) : null,
       entries: draft.entries.map(function (en) {
         return { exerciseId: en.exerciseId, prescriptionSnapshot: en.prescriptionSnapshot, prescriptionSnapshotReconstructed: false,
-          sets: en.sets.filter(function (s) { return s.reps != null || s.charge != null; }).map(function (s) { return { charge: s.charge, reps: s.reps, restSeconds: s.restSeconds != null ? s.restSeconds : null, unverified: false }; }) };
-      }).filter(function (en) { return en.sets.length; })
+          sets: en.sets.filter(realSet).map(function (s) { return { charge: s.charge, reps: s.reps, restSeconds: s.restSeconds != null ? s.restSeconds : null, unverified: false }; }) };
+      }).filter(function (en) { return en.sets.length; })   // un exercice sans série réellement faite est écarté
     };
-    // met à jour la charge de départ de chaque exercice avec la dernière charge saisie
+    // charge de départ mise à jour UNIQUEMENT depuis une série réellement effectuée
     draft.entries.forEach(function (en) {
-      var lastCharge = null; en.sets.forEach(function (s) { if (s.charge != null) lastCharge = s.charge; });
+      var lastCharge = null; en.sets.forEach(function (s) { if (realSet(s) && s.charge != null) lastCharge = s.charge; });
       if (lastCharge != null) { var ex = A.getExercises().filter(function (e) { return e.id === en.exerciseId; })[0]; if (ex) { ex.startingLoad = { charge: lastCharge, date: draft.date, source: 'session' }; A.saveExercise(ex); } }
     });
     var savedSession = A.saveWorkoutSession(session);
